@@ -1,0 +1,546 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 46;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		5524CB4D184D791400094EAE /* FilesTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5524CB4C184D791400094EAE /* FilesTableViewController.m */; };
+		5524CB50184D7A3E00094EAE /* JSONStreamResponseSerializer.m in Sources */ = {isa = PBXBuildFile; fileRef = 5524CB4F184D7A3E00094EAE /* JSONStreamResponseSerializer.m */; };
+		554C2C76184D744800EE430B /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 554C2C75184D744800EE430B /* Foundation.framework */; };
+		554C2C78184D744800EE430B /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 554C2C77184D744800EE430B /* CoreGraphics.framework */; };
+		554C2C7A184D744800EE430B /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 554C2C79184D744800EE430B /* UIKit.framework */; };
+		554C2C80184D744800EE430B /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 554C2C7E184D744800EE430B /* InfoPlist.strings */; };
+		554C2C82184D744800EE430B /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 554C2C81184D744800EE430B /* main.m */; };
+		554C2C86184D744800EE430B /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 554C2C85184D744800EE430B /* AppDelegate.m */; };
+		554C2C89184D744800EE430B /* Main_iPhone.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 554C2C87184D744800EE430B /* Main_iPhone.storyboard */; };
+		554C2C8C184D744800EE430B /* Main_iPad.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 554C2C8A184D744800EE430B /* Main_iPad.storyboard */; };
+		554C2C92184D744800EE430B /* SecondViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 554C2C91184D744800EE430B /* SecondViewController.m */; };
+		554C2C94184D744800EE430B /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 554C2C93184D744800EE430B /* Images.xcassets */; };
+		554C2C9B184D744800EE430B /* XCTest.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 554C2C9A184D744800EE430B /* XCTest.framework */; };
+		554C2C9C184D744800EE430B /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 554C2C75184D744800EE430B /* Foundation.framework */; };
+		554C2C9D184D744800EE430B /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 554C2C79184D744800EE430B /* UIKit.framework */; };
+		554C2CA5184D744800EE430B /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 554C2CA3184D744800EE430B /* InfoPlist.strings */; };
+		554C2CA7184D744800EE430B /* MantaTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 554C2CA6184D744800EE430B /* MantaTests.m */; };
+		924ECA0238964096879C091A /* libPods.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 4E9469D06BC44E53BFAC0155 /* libPods.a */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		554C2C9E184D744800EE430B /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 554C2C6A184D744800EE430B /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 554C2C71184D744800EE430B;
+			remoteInfo = Manta;
+		};
+/* End PBXContainerItemProxy section */
+
+/* Begin PBXFileReference section */
+		4E9469D06BC44E53BFAC0155 /* libPods.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libPods.a; sourceTree = BUILT_PRODUCTS_DIR; };
+		5524CB4B184D791400094EAE /* FilesTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FilesTableViewController.h; sourceTree = "<group>"; };
+		5524CB4C184D791400094EAE /* FilesTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FilesTableViewController.m; sourceTree = "<group>"; };
+		5524CB4E184D7A3E00094EAE /* JSONStreamResponseSerializer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JSONStreamResponseSerializer.h; sourceTree = "<group>"; };
+		5524CB4F184D7A3E00094EAE /* JSONStreamResponseSerializer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JSONStreamResponseSerializer.m; sourceTree = "<group>"; };
+		554C2C72184D744800EE430B /* Manta.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Manta.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		554C2C75184D744800EE430B /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
+		554C2C77184D744800EE430B /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
+		554C2C79184D744800EE430B /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
+		554C2C7D184D744800EE430B /* Manta-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "Manta-Info.plist"; sourceTree = "<group>"; };
+		554C2C7F184D744800EE430B /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
+		554C2C81184D744800EE430B /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
+		554C2C83184D744800EE430B /* Manta-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "Manta-Prefix.pch"; sourceTree = "<group>"; };
+		554C2C84184D744800EE430B /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
+		554C2C85184D744800EE430B /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
+		554C2C88184D744800EE430B /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main_iPhone.storyboard; sourceTree = "<group>"; };
+		554C2C8B184D744800EE430B /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main_iPad.storyboard; sourceTree = "<group>"; };
+		554C2C90184D744800EE430B /* SecondViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SecondViewController.h; sourceTree = "<group>"; };
+		554C2C91184D744800EE430B /* SecondViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SecondViewController.m; sourceTree = "<group>"; };
+		554C2C93184D744800EE430B /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
+		554C2C99184D744800EE430B /* MantaTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = MantaTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		554C2C9A184D744800EE430B /* XCTest.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = XCTest.framework; path = Library/Frameworks/XCTest.framework; sourceTree = DEVELOPER_DIR; };
+		554C2CA2184D744800EE430B /* MantaTests-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "MantaTests-Info.plist"; sourceTree = "<group>"; };
+		554C2CA4184D744800EE430B /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
+		554C2CA6184D744800EE430B /* MantaTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MantaTests.m; sourceTree = "<group>"; };
+		8CE0BA672DC24E21A62898A5 /* Pods.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.xcconfig; path = Pods/Pods.xcconfig; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		554C2C6F184D744800EE430B /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				554C2C78184D744800EE430B /* CoreGraphics.framework in Frameworks */,
+				554C2C7A184D744800EE430B /* UIKit.framework in Frameworks */,
+				554C2C76184D744800EE430B /* Foundation.framework in Frameworks */,
+				924ECA0238964096879C091A /* libPods.a in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		554C2C96184D744800EE430B /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				554C2C9B184D744800EE430B /* XCTest.framework in Frameworks */,
+				554C2C9D184D744800EE430B /* UIKit.framework in Frameworks */,
+				554C2C9C184D744800EE430B /* Foundation.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		554C2C69184D744800EE430B = {
+			isa = PBXGroup;
+			children = (
+				554C2C7B184D744800EE430B /* Manta */,
+				554C2CA0184D744800EE430B /* MantaTests */,
+				554C2C74184D744800EE430B /* Frameworks */,
+				554C2C73184D744800EE430B /* Products */,
+				8CE0BA672DC24E21A62898A5 /* Pods.xcconfig */,
+			);
+			sourceTree = "<group>";
+		};
+		554C2C73184D744800EE430B /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				554C2C72184D744800EE430B /* Manta.app */,
+				554C2C99184D744800EE430B /* MantaTests.xctest */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		554C2C74184D744800EE430B /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				554C2C75184D744800EE430B /* Foundation.framework */,
+				554C2C77184D744800EE430B /* CoreGraphics.framework */,
+				554C2C79184D744800EE430B /* UIKit.framework */,
+				554C2C9A184D744800EE430B /* XCTest.framework */,
+				4E9469D06BC44E53BFAC0155 /* libPods.a */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		554C2C7B184D744800EE430B /* Manta */ = {
+			isa = PBXGroup;
+			children = (
+				5524CB4B184D791400094EAE /* FilesTableViewController.h */,
+				5524CB4C184D791400094EAE /* FilesTableViewController.m */,
+				554C2C84184D744800EE430B /* AppDelegate.h */,
+				554C2C85184D744800EE430B /* AppDelegate.m */,
+				554C2C87184D744800EE430B /* Main_iPhone.storyboard */,
+				554C2C8A184D744800EE430B /* Main_iPad.storyboard */,
+				554C2C90184D744800EE430B /* SecondViewController.h */,
+				554C2C91184D744800EE430B /* SecondViewController.m */,
+				554C2C93184D744800EE430B /* Images.xcassets */,
+				554C2C7C184D744800EE430B /* Supporting Files */,
+				5524CB4E184D7A3E00094EAE /* JSONStreamResponseSerializer.h */,
+				5524CB4F184D7A3E00094EAE /* JSONStreamResponseSerializer.m */,
+			);
+			path = Manta;
+			sourceTree = "<group>";
+		};
+		554C2C7C184D744800EE430B /* Supporting Files */ = {
+			isa = PBXGroup;
+			children = (
+				554C2C7D184D744800EE430B /* Manta-Info.plist */,
+				554C2C7E184D744800EE430B /* InfoPlist.strings */,
+				554C2C81184D744800EE430B /* main.m */,
+				554C2C83184D744800EE430B /* Manta-Prefix.pch */,
+			);
+			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+		554C2CA0184D744800EE430B /* MantaTests */ = {
+			isa = PBXGroup;
+			children = (
+				554C2CA6184D744800EE430B /* MantaTests.m */,
+				554C2CA1184D744800EE430B /* Supporting Files */,
+			);
+			path = MantaTests;
+			sourceTree = "<group>";
+		};
+		554C2CA1184D744800EE430B /* Supporting Files */ = {
+			isa = PBXGroup;
+			children = (
+				554C2CA2184D744800EE430B /* MantaTests-Info.plist */,
+				554C2CA3184D744800EE430B /* InfoPlist.strings */,
+			);
+			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		554C2C71184D744800EE430B /* Manta */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 554C2CAA184D744800EE430B /* Build configuration list for PBXNativeTarget "Manta" */;
+			buildPhases = (
+				97959DB10EED4EC9AE25D66A /* Check Pods Manifest.lock */,
+				554C2C6E184D744800EE430B /* Sources */,
+				554C2C6F184D744800EE430B /* Frameworks */,
+				554C2C70184D744800EE430B /* Resources */,
+				E3C77DFD8FE340DF8F1B2E62 /* Copy Pods Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = Manta;
+			productName = Manta;
+			productReference = 554C2C72184D744800EE430B /* Manta.app */;
+			productType = "com.apple.product-type.application";
+		};
+		554C2C98184D744800EE430B /* MantaTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 554C2CAD184D744800EE430B /* Build configuration list for PBXNativeTarget "MantaTests" */;
+			buildPhases = (
+				554C2C95184D744800EE430B /* Sources */,
+				554C2C96184D744800EE430B /* Frameworks */,
+				554C2C97184D744800EE430B /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				554C2C9F184D744800EE430B /* PBXTargetDependency */,
+			);
+			name = MantaTests;
+			productName = MantaTests;
+			productReference = 554C2C99184D744800EE430B /* MantaTests.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		554C2C6A184D744800EE430B /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				LastUpgradeCheck = 0500;
+				ORGANIZATIONNAME = "Dave Eddy";
+				TargetAttributes = {
+					554C2C98184D744800EE430B = {
+						TestTargetID = 554C2C71184D744800EE430B;
+					};
+				};
+			};
+			buildConfigurationList = 554C2C6D184D744800EE430B /* Build configuration list for PBXProject "Manta" */;
+			compatibilityVersion = "Xcode 3.2";
+			developmentRegion = English;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+				Base,
+			);
+			mainGroup = 554C2C69184D744800EE430B;
+			productRefGroup = 554C2C73184D744800EE430B /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				554C2C71184D744800EE430B /* Manta */,
+				554C2C98184D744800EE430B /* MantaTests */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		554C2C70184D744800EE430B /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				554C2C8C184D744800EE430B /* Main_iPad.storyboard in Resources */,
+				554C2C94184D744800EE430B /* Images.xcassets in Resources */,
+				554C2C89184D744800EE430B /* Main_iPhone.storyboard in Resources */,
+				554C2C80184D744800EE430B /* InfoPlist.strings in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		554C2C97184D744800EE430B /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				554C2CA5184D744800EE430B /* InfoPlist.strings in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXShellScriptBuildPhase section */
+		97959DB10EED4EC9AE25D66A /* Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "Check Pods Manifest.lock";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_ROOT}/../Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [[ $? != 0 ]] ; then\n    cat << EOM\nerror: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\nEOM\n    exit 1\nfi\n";
+			showEnvVarsInLog = 0;
+		};
+		E3C77DFD8FE340DF8F1B2E62 /* Copy Pods Resources */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "Copy Pods Resources";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Pods-resources.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+/* End PBXShellScriptBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		554C2C6E184D744800EE430B /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				554C2C92184D744800EE430B /* SecondViewController.m in Sources */,
+				554C2C86184D744800EE430B /* AppDelegate.m in Sources */,
+				554C2C82184D744800EE430B /* main.m in Sources */,
+				5524CB50184D7A3E00094EAE /* JSONStreamResponseSerializer.m in Sources */,
+				5524CB4D184D791400094EAE /* FilesTableViewController.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		554C2C95184D744800EE430B /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				554C2CA7184D744800EE430B /* MantaTests.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		554C2C9F184D744800EE430B /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 554C2C71184D744800EE430B /* Manta */;
+			targetProxy = 554C2C9E184D744800EE430B /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
+/* Begin PBXVariantGroup section */
+		554C2C7E184D744800EE430B /* InfoPlist.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				554C2C7F184D744800EE430B /* en */,
+			);
+			name = InfoPlist.strings;
+			sourceTree = "<group>";
+		};
+		554C2C87184D744800EE430B /* Main_iPhone.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				554C2C88184D744800EE430B /* Base */,
+			);
+			name = Main_iPhone.storyboard;
+			sourceTree = "<group>";
+		};
+		554C2C8A184D744800EE430B /* Main_iPad.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				554C2C8B184D744800EE430B /* Base */,
+			);
+			name = Main_iPad.storyboard;
+			sourceTree = "<group>";
+		};
+		554C2CA3184D744800EE430B /* InfoPlist.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				554C2CA4184D744800EE430B /* en */,
+			);
+			name = InfoPlist.strings;
+			sourceTree = "<group>";
+		};
+/* End PBXVariantGroup section */
+
+/* Begin XCBuildConfiguration section */
+		554C2CA8184D744800EE430B /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ARCHS = "$(ARCHS_STANDARD_INCLUDING_64_BIT)";
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				COPY_PHASE_STRIP = NO;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = iphoneos;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+		554C2CA9184D744800EE430B /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ARCHS = "$(ARCHS_STANDARD_INCLUDING_64_BIT)";
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				COPY_PHASE_STRIP = YES;
+				ENABLE_NS_ASSERTIONS = NO;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
+				SDKROOT = iphoneos;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				VALIDATE_PRODUCT = YES;
+			};
+			name = Release;
+		};
+		554C2CAB184D744800EE430B /* Debug */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 8CE0BA672DC24E21A62898A5 /* Pods.xcconfig */;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "Manta/Manta-Prefix.pch";
+				INFOPLIST_FILE = "Manta/Manta-Info.plist";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				WRAPPER_EXTENSION = app;
+			};
+			name = Debug;
+		};
+		554C2CAC184D744800EE430B /* Release */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 8CE0BA672DC24E21A62898A5 /* Pods.xcconfig */;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "Manta/Manta-Prefix.pch";
+				INFOPLIST_FILE = "Manta/Manta-Info.plist";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				WRAPPER_EXTENSION = app;
+			};
+			name = Release;
+		};
+		554C2CAE184D744800EE430B /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ARCHS = "$(ARCHS_STANDARD_INCLUDING_64_BIT)";
+				BUNDLE_LOADER = "$(BUILT_PRODUCTS_DIR)/Manta.app/Manta";
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(SDKROOT)/Developer/Library/Frameworks",
+					"$(inherited)",
+					"$(DEVELOPER_FRAMEWORKS_DIR)",
+				);
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "Manta/Manta-Prefix.pch";
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				INFOPLIST_FILE = "MantaTests/MantaTests-Info.plist";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				TEST_HOST = "$(BUNDLE_LOADER)";
+				WRAPPER_EXTENSION = xctest;
+			};
+			name = Debug;
+		};
+		554C2CAF184D744800EE430B /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ARCHS = "$(ARCHS_STANDARD_INCLUDING_64_BIT)";
+				BUNDLE_LOADER = "$(BUILT_PRODUCTS_DIR)/Manta.app/Manta";
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(SDKROOT)/Developer/Library/Frameworks",
+					"$(inherited)",
+					"$(DEVELOPER_FRAMEWORKS_DIR)",
+				);
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "Manta/Manta-Prefix.pch";
+				INFOPLIST_FILE = "MantaTests/MantaTests-Info.plist";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				TEST_HOST = "$(BUNDLE_LOADER)";
+				WRAPPER_EXTENSION = xctest;
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		554C2C6D184D744800EE430B /* Build configuration list for PBXProject "Manta" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				554C2CA8184D744800EE430B /* Debug */,
+				554C2CA9184D744800EE430B /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		554C2CAA184D744800EE430B /* Build configuration list for PBXNativeTarget "Manta" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				554C2CAB184D744800EE430B /* Debug */,
+				554C2CAC184D744800EE430B /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		554C2CAD184D744800EE430B /* Build configuration list for PBXNativeTarget "MantaTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				554C2CAE184D744800EE430B /* Debug */,
+				554C2CAF184D744800EE430B /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = 554C2C6A184D744800EE430B /* Project object */;
+}
