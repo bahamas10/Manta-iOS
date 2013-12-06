@@ -56,8 +56,13 @@
     [super viewDidLoad];
     [self.tableView registerClass:UITableViewCell.class forCellReuseIdentifier:@"UserCell"];
     
-    if (self.canEdit)
+    if (self.isRootView) {
         self.navigationItem.leftBarButtonItem = self.editButtonItem;
+    }
+    if (self.canEdit) {
+        UIBarButtonItem *addBarButtonItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemAdd target:self action:@selector(addButtonPressed:)];
+        self.navigationItem.rightBarButtonItem = addBarButtonItem;
+    }
 
     // Uncomment the following line to preserve selection between presentations.
     // self.clearsSelectionOnViewWillAppear = NO;
@@ -153,11 +158,15 @@
     [downloadTask resume];
 }
 
-#pragma mark - IBAction
-
+#pragma mark - IBAction and Selectors
 - (IBAction)refresh:(id)sender
 {
     [self refresh];
+}
+
+- (void)addButtonPressed:(id)sender
+{
+    NSLog(@"add");
 }
 
 #pragma mark - Table view data source
@@ -188,6 +197,11 @@
     return self.canEdit;
 }
 
+- (UITableViewCellEditingStyle)tableView:(UITableView *)tableView editingStyleForRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    return UITableViewCellEditingStyleDelete;
+}
+
 - (void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath
 {
     if (editingStyle == UITableViewCellEditingStyleDelete) {
@@ -195,7 +209,6 @@
         [self.files removeObjectAtIndex:indexPath.row];
         [tableView deleteRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationFade];
     } else if (editingStyle == UITableViewCellEditingStyleInsert) {
-        // Create a new instance of the appropriate class, insert it into the array, and add a new row to the table view
     }
     if (self.isRootView)
         [NSUserDefaults.standardUserDefaults setObject:self.files forKey:@"Manta_Users_List"];
