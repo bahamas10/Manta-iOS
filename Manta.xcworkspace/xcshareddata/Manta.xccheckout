@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>IDESourceControlProjectFavoriteDictionaryKey</key>
+	<false/>
+	<key>IDESourceControlProjectIdentifier</key>
+	<string>03A0B906-E84A-47AC-AF7B-53C0B9CA5C28</string>
+	<key>IDESourceControlProjectName</key>
+	<string>Manta</string>
+	<key>IDESourceControlProjectOriginsDictionary</key>
+	<dict>
+		<key>BBA8A9FF-0613-49E9-81C1-579BC6E49DE1</key>
+		<string>ssh://mateo.daveeddy.com:7072/home/dave/repos/Manta.git</string>
+	</dict>
+	<key>IDESourceControlProjectPath</key>
+	<string>Manta.xcworkspace</string>
+	<key>IDESourceControlProjectRelativeInstallPathDictionary</key>
+	<dict>
+		<key>BBA8A9FF-0613-49E9-81C1-579BC6E49DE1</key>
+		<string>..</string>
+	</dict>
+	<key>IDESourceControlProjectURL</key>
+	<string>ssh://mateo.daveeddy.com:7072/home/dave/repos/Manta.git</string>
+	<key>IDESourceControlProjectVersion</key>
+	<integer>110</integer>
+	<key>IDESourceControlProjectWCCIdentifier</key>
+	<string>BBA8A9FF-0613-49E9-81C1-579BC6E49DE1</string>
+	<key>IDESourceControlProjectWCConfigurations</key>
+	<array>
+		<dict>
+			<key>IDESourceControlRepositoryExtensionIdentifierKey</key>
+			<string>public.vcs.git</string>
+			<key>IDESourceControlWCCIdentifierKey</key>
+			<string>BBA8A9FF-0613-49E9-81C1-579BC6E49DE1</string>
+			<key>IDESourceControlWCCName</key>
+			<string>Manta</string>
+		</dict>
+	</array>
+</dict>
+</plist>
