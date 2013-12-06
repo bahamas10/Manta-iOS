@@ -20,6 +20,7 @@
 
 @implementation FilesTableViewController
 
+#pragma mark - Lifecycle
 // only called for root view
 - (void)awakeFromNib
 {
