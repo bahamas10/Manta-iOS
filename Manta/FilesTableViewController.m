@@ -9,6 +9,7 @@
 #import "FilesTableViewController.h"
 #import "JSONStreamResponseSerializer.h"
 #import "FilesTableViewCell.h"
+#import "IndividualFileTableViewController.h"
 
 #import <CommonCrypto/CommonCrypto.h>
 
@@ -38,15 +39,14 @@
     if (self.isRootView) {
         self.navigationItem.leftBarButtonItem = self.editButtonItem;
     }
-    if (!self.canEdit) {
+    
+    if (!self.isRootView) {
         self.navigationItem.rightBarButtonItem = nil;
+        
         //UIBarButtonItem *addBarButtonItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemAdd target:self action:@selector(addButtonPressed:)];
         //self.navigationItem.rightBarButtonItem = addBarButtonItem;
     }
 
-    // Uncomment the following line to preserve selection between presentations.
-    // self.clearsSelectionOnViewWillAppear = NO;
-    
     // add pull to refresh
     UIRefreshControl *refresh = [[UIRefreshControl alloc] init];
     refresh.attributedTitle = [[NSAttributedString alloc] initWithString:@"Pull to Refresh"];
@@ -240,14 +240,38 @@
     NSDictionary *object = self.files[indexPath.row];
     if ([object[@"type"] isEqualToString:@"object"]) {
         // file click
-        [self downloadFile:object[@"name"]];
+        //[self downloadFile:object[@"name"]];
+        IndividualFileTableViewController *individualFileViewController = [self.navigationController.storyboard instantiateViewControllerWithIdentifier:@"IndividualFileTableVC"];
+        
+        NSURL *URL = [NSURL URLWithString:[NSString stringWithFormat:@"%@%@/%@",
+                                           self.mantaURL.absoluteString,
+                                           self.currentPath,
+                                           object[@"name"]]];
+        NSString *localFile = [[self documentsDirectoryPath] stringByAppendingPathComponent:URL.path];
+        
+        individualFileViewController.file = object;
+        individualFileViewController.title = object[@"name"];
+        individualFileViewController.localFilePath = localFile;
+        individualFileViewController.remoteURL = URL;
+        
+        [tableView deselectRowAtIndexPath:indexPath animated:YES];
+        [self.navigationController pushViewController:individualFileViewController animated:YES];
     } else {
         // sub-directory click
         FilesTableViewController *newSubdirectoryController = [self.navigationController.storyboard instantiateViewControllerWithIdentifier:@"FilesTableVC"];
         NSString *subpath = [self.currentPath stringByAppendingPathComponent:object[@"name"]];
         newSubdirectoryController.currentPath = subpath;
         newSubdirectoryController.title = subpath.lastPathComponent;
-        newSubdirectoryController.mantaURL = self.mantaURL ? self.mantaURL : [NSURL URLWithString:object[@"url"]];
+        newSubdirectoryController.mantaURL = self.mantaURL;
+        
+        if (!newSubdirectoryController.mantaURL) {
+            NSMutableString *URLString = [NSMutableString stringWithString:object[@"url"]];
+            // remove trailing slash from URL
+            while ([URLString hasSuffix: @"/"])
+                [URLString deleteCharactersInRange:NSMakeRange(URLString.length - 1, 1)];
+            
+            newSubdirectoryController.mantaURL = [NSURL URLWithString:URLString];
+        }
         
         // make the subdirectory if necessary
         NSString *localSubDirectory = [[self documentsDirectoryPath] stringByAppendingPathComponent:subpath];
@@ -272,9 +296,13 @@
 #pragma mark - Navigation
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
 {
-    if ([segue.identifier isEqualToString:@"SubDirectorySegue"]) {
-        NSLog(@"about to segue");
-    }
+}
+
+- (BOOL)shouldPerformSegueWithIdentifier:(NSString *)identifier sender:(id)sender
+{
+    if ([identifier isEqualToString:@"IndividualFileSegue"])
+        return NO;
+    return YES;
 }
 
 #pragma mark - Helper functions

@@ -9,9 +9,7 @@
 #import <UIKit/UIKit.h>
 
 @interface FilesTableViewController : UITableViewController
-
 @property (strong, nonatomic) NSMutableArray *files;
 @property (strong, nonatomic) NSString *currentPath;
 @property (strong, nonatomic) NSURL *mantaURL;
-
 @end

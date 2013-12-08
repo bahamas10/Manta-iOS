@@ -26,6 +26,7 @@
 		554C2CA7184D744800EE430B /* MantaTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 554C2CA6184D744800EE430B /* MantaTests.m */; };
 		556E29701853F3B700ECBE19 /* FilesTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 556E296F1853F3B700ECBE19 /* FilesTableViewCell.m */; };
 		556E29731854CA7600ECBE19 /* AddAccountViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 556E29721854CA7600ECBE19 /* AddAccountViewController.m */; };
+		556E29761854EECF00ECBE19 /* IndividualFileTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 556E29751854EECF00ECBE19 /* IndividualFileTableViewController.m */; };
 		924ECA0238964096879C091A /* libPods.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 4E9469D06BC44E53BFAC0155 /* libPods.a */; };
 /* End PBXBuildFile section */
 
@@ -69,6 +70,8 @@
 		556E296F1853F3B700ECBE19 /* FilesTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FilesTableViewCell.m; sourceTree = "<group>"; };
 		556E29711854CA7600ECBE19 /* AddAccountViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AddAccountViewController.h; sourceTree = "<group>"; };
 		556E29721854CA7600ECBE19 /* AddAccountViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AddAccountViewController.m; sourceTree = "<group>"; };
+		556E29741854EECF00ECBE19 /* IndividualFileTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IndividualFileTableViewController.h; sourceTree = "<group>"; };
+		556E29751854EECF00ECBE19 /* IndividualFileTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = IndividualFileTableViewController.m; sourceTree = "<group>"; };
 		8CE0BA672DC24E21A62898A5 /* Pods.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.xcconfig; path = Pods/Pods.xcconfig; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -132,16 +135,18 @@
 		554C2C7B184D744800EE430B /* Manta */ = {
 			isa = PBXGroup;
 			children = (
+				554C2C84184D744800EE430B /* AppDelegate.h */,
+				554C2C85184D744800EE430B /* AppDelegate.m */,
+				554C2C87184D744800EE430B /* Main_iPhone.storyboard */,
+				554C2C8A184D744800EE430B /* Main_iPad.storyboard */,
 				5524CB4B184D791400094EAE /* FilesTableViewController.h */,
 				5524CB4C184D791400094EAE /* FilesTableViewController.m */,
 				556E296E1853F3B700ECBE19 /* FilesTableViewCell.h */,
 				556E296F1853F3B700ECBE19 /* FilesTableViewCell.m */,
 				556E29711854CA7600ECBE19 /* AddAccountViewController.h */,
 				556E29721854CA7600ECBE19 /* AddAccountViewController.m */,
-				554C2C84184D744800EE430B /* AppDelegate.h */,
-				554C2C85184D744800EE430B /* AppDelegate.m */,
-				554C2C87184D744800EE430B /* Main_iPhone.storyboard */,
-				554C2C8A184D744800EE430B /* Main_iPad.storyboard */,
+				556E29741854EECF00ECBE19 /* IndividualFileTableViewController.h */,
+				556E29751854EECF00ECBE19 /* IndividualFileTableViewController.m */,
 				554C2C90184D744800EE430B /* SecondViewController.h */,
 				554C2C91184D744800EE430B /* SecondViewController.m */,
 				554C2C93184D744800EE430B /* Images.xcassets */,
@@ -320,6 +325,7 @@
 				554C2C82184D744800EE430B /* main.m in Sources */,
 				5524CB50184D7A3E00094EAE /* JSONStreamResponseSerializer.m in Sources */,
 				5524CB4D184D791400094EAE /* FilesTableViewController.m in Sources */,
+				556E29761854EECF00ECBE19 /* IndividualFileTableViewController.m in Sources */,
 				556E29701853F3B700ECBE19 /* FilesTableViewCell.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
