@@ -8,6 +8,7 @@
 
 #import "FilesTableViewController.h"
 #import "JSONStreamResponseSerializer.h"
+#import "FilesTableViewCell.h"
 
 #import <CommonCrypto/CommonCrypto.h>
 
@@ -21,48 +22,26 @@
 @implementation FilesTableViewController
 
 #pragma mark - Lifecycle
-// only called for root view
 - (void)awakeFromNib
 {
-    NSArray *u = [NSUserDefaults.standardUserDefaults arrayForKey:@"Manta_Users_List"];
-    // XXX DEBUG
-    u = @[
-          @{
-              @"name": @"bahamas10",
-              @"url": @"https://us-east.manta.joyent.com"
-              },
-          @{
-              @"name": @"papertigers",
-              @"url": @"https://us-east.manta.joyent.com"
-              },
-          @{
-              @"name": @"Joyent_Dev",
-              @"url": @"https://us-east.manta.joyent.com"
-              },
-          @{
-              @"name": @"devops@voxer.com",
-              @"url": @"https://us-east.manta.joyent.com"
-              },
-          @{
-              @"name": @"bahamas11-fake",
-              @"url": @"https://us-east.manta.joyent.com"
-              }
-          ];
-    self.files = [NSMutableArray arrayWithArray:u];
-    self.currentPath = @"/";
+    if (self.isRootView) {
+        NSArray *u = [NSUserDefaults.standardUserDefaults arrayForKey:@"Manta_Users_List"];
+        self.files = [NSMutableArray arrayWithArray:u];
+        self.currentPath = @"/";
+    }
 }
 
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-    [self.tableView registerClass:UITableViewCell.class forCellReuseIdentifier:@"UserCell"];
     
     if (self.isRootView) {
         self.navigationItem.leftBarButtonItem = self.editButtonItem;
     }
-    if (self.canEdit) {
-        UIBarButtonItem *addBarButtonItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemAdd target:self action:@selector(addButtonPressed:)];
-        self.navigationItem.rightBarButtonItem = addBarButtonItem;
+    if (!self.canEdit) {
+        self.navigationItem.rightBarButtonItem = nil;
+        //UIBarButtonItem *addBarButtonItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemAdd target:self action:@selector(addButtonPressed:)];
+        //self.navigationItem.rightBarButtonItem = addBarButtonItem;
     }
 
     // Uncomment the following line to preserve selection between presentations.
@@ -78,10 +57,20 @@
     [self refresh];
 }
 
+- (void)viewDidAppear:(BOOL)animated
+{
+    [super viewDidAppear:animated];
+    if (self.isRootView)
+        [self refresh];
+}
+
 #pragma mark - Manta API
 - (void)refresh
 {
     if (self.isRootView) {
+        NSArray *u = [NSUserDefaults.standardUserDefaults arrayForKey:@"Manta_Users_List"];
+        self.files = [NSMutableArray arrayWithArray:u];
+        [self.tableView reloadData];
         [self.refreshControl endRefreshing];
         return;
     }
@@ -121,7 +110,6 @@
                                   delegate:nil
                                   cancelButtonTitle:@"Dismiss"
                                   otherButtonTitles:nil];
-            
             [alert show];
         }
         
@@ -165,13 +153,7 @@
     [self refresh];
 }
 
-- (void)addButtonPressed:(id)sender
-{
-    NSLog(@"add");
-}
-
 #pragma mark - Table view data source
-
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
 {
     return 1;
@@ -185,10 +167,26 @@
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     static NSString *CellIdentifier = @"UserCell";
-    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier forIndexPath:indexPath];
+    FilesTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
+    if (!cell) {
+        cell = [[FilesTableViewCell alloc] init];
+    }
     
     NSDictionary *file = self.files[indexPath.row];
-    cell.textLabel.text = file[@"name"];
+    cell.nameLabel.text = file[@"name"];
+    cell.mtimeLabel.text = file[@"mtime"];
+    
+    if (![file[@"type"] isEqualToString:@"object"])
+        cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
+    else
+        cell.accessoryType = UITableViewCellAccessoryNone;
+    
+    
+    NSArray *icons = [self iconsForFile:file[@"name"]];
+    if (icons.count)
+        cell.imageView.image = icons[icons.count - 1];
+    else
+        cell.imageView.image = nil;
     
     return cell;
 }
@@ -210,6 +208,7 @@
         [self.files removeObjectAtIndex:indexPath.row];
         [tableView deleteRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationFade];
     } else if (editingStyle == UITableViewCellEditingStyleInsert) {
+        
     }
     if (self.isRootView)
         [NSUserDefaults.standardUserDefaults setObject:self.files forKey:@"Manta_Users_List"];
@@ -244,20 +243,13 @@
         [self downloadFile:object[@"name"]];
     } else {
         // sub-directory click
-        FilesTableViewController *newSubdirectoryController = [[FilesTableViewController alloc] init];
+        FilesTableViewController *newSubdirectoryController = [self.navigationController.storyboard instantiateViewControllerWithIdentifier:@"FilesTableVC"];
         NSString *subpath = [self.currentPath stringByAppendingPathComponent:object[@"name"]];
         newSubdirectoryController.currentPath = subpath;
         newSubdirectoryController.title = subpath.lastPathComponent;
         newSubdirectoryController.mantaURL = self.mantaURL ? self.mantaURL : [NSURL URLWithString:object[@"url"]];
         
-        //newSubdirectoryController.shouldDisplaySearchBar = self.shouldDisplaySearchBar;
-        //newSubdirectoryController.deliverDownloadNotifications = self.deliverDownloadNotifications;
-        //newSubdirectoryController.allowedFileTypes = self.allowedFileTypes;
-        //newSubdirectoryController.tableCellID = self.tableCellID;
-        
-        //[newSubdirectoryController listDirectoryAtPath:subpath];
-        
-        // make the sub-directory if necessary
+        // make the subdirectory if necessary
         NSString *localSubDirectory = [[self documentsDirectoryPath] stringByAppendingPathComponent:subpath];
         NSLog(@"localSubDirectory = %@", localSubDirectory);
         BOOL isDir = NO;
@@ -277,17 +269,13 @@
     }
 }
 
-/*
 #pragma mark - Navigation
-
-// In a story board-based application, you will often want to do a little preparation before navigation
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
 {
-    // Get the new view controller using [segue destinationViewController].
-    // Pass the selected object to the new view controller.
+    if ([segue.identifier isEqualToString:@"SubDirectorySegue"]) {
+        NSLog(@"about to segue");
+    }
 }
-
- */
 
 #pragma mark - Helper functions
 // check if the current view is the root of the stack
@@ -295,11 +283,13 @@
 {
     return self.getLevel ? NO : YES;
 }
+
 // get the current stack level of the views
 - (NSInteger)getLevel
 {
     return self.navigationController.viewControllers.count - 1;
 }
+
 // determine if the current view should be editable
 - (BOOL)canEdit
 {
@@ -307,15 +297,26 @@
     return (self.isRootView) ||
            (self.getLevel >= 2 && components.count >= 3 && ![components[2] isEqualToString:@"public"]);
 }
+
 // return the document directory path
 - (NSString *)documentsDirectoryPath
 {
     return [NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES) firstObject];
 }
+
 // return the document directory URL
 - (NSURL *)documentsDirectoryURL
 {
     return [NSURL fileURLWithPath:[self documentsDirectoryPath]];
+}
+
+// return icons for a given filename
+- (NSArray *)iconsForFile:(NSString *)file
+{
+    NSLog(@"iconsForFile:%@", file);
+    UIDocumentInteractionController *docController = [[UIDocumentInteractionController alloc] init];
+    docController.name = file;
+    return docController.icons;
 }
 
 #pragma mark - RSA
