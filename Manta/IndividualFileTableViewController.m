@@ -69,6 +69,16 @@
 #pragma mark - IBAction
 - (IBAction)downloadFileButtonPressed:(id)sender
 {
+    if ([self.file[@"size"] integerValue] > MAX_DOWNLOAD_SIZE_BYTES) {
+        UIAlertView *message = [[UIAlertView alloc] initWithTitle:@"File too big"
+                                                          message:[NSString stringWithFormat:@"File is greater than %@", [self humanReadableBytes:MAX_DOWNLOAD_SIZE_BYTES]]
+                                                         delegate:nil
+                                                cancelButtonTitle:@"OK"
+                                                otherButtonTitles:nil];
+        [message show];
+        return;
+    }
+    
     self.openButton.enabled = NO;
     self.downloadButton.enabled = NO;
     
@@ -143,6 +153,8 @@
         units = @"K";
     else
         units = @"B";
+    if (!amount)
+        amount = bytes;
     return [NSString stringWithFormat:@"%d%@", amount, units];
 }
 
