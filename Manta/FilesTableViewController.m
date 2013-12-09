@@ -10,11 +10,12 @@
 #import "JSONStreamResponseSerializer.h"
 #import "FilesTableViewCell.h"
 #import "IndividualFileTableViewController.h"
-
-#import <CommonCrypto/CommonCrypto.h>
+#import "MantaClient.h"
 
 #import <AFNetworking/AFHTTPRequestOperationManager.h>
 #import <AFNetworking/AFURLSessionManager.h>
+
+#import <MBProgressHUD/MBProgressHUD.h>
 
 @interface FilesTableViewController ()
 
@@ -29,6 +30,8 @@
         NSArray *u = [NSUserDefaults.standardUserDefaults arrayForKey:@"Manta_Users_List"];
         self.files = [NSMutableArray arrayWithArray:u];
         self.currentPath = @"/";
+        self.mantaClients = [NSMutableDictionary new];
+        [self createMantaClients];
     }
 }
 
@@ -65,50 +68,37 @@
         NSArray *u = [NSUserDefaults.standardUserDefaults arrayForKey:@"Manta_Users_List"];
         self.files = [NSMutableArray arrayWithArray:u];
         [self.tableView reloadData];
+        [self createMantaClients];
         [self.refreshControl endRefreshing];
         return;
     }
 
     UIApplication.sharedApplication.networkActivityIndicatorVisible = YES;
-    AFHTTPRequestOperationManager *manager = [[AFHTTPRequestOperationManager alloc] initWithBaseURL:self.mantaURL];
-    manager.responseSerializer = [JSONStreamResponseSerializer serializer];
-    [manager GET:self.currentPath parameters:nil success:^(AFHTTPRequestOperation *operation, id responseObject) {
-        UIApplication.sharedApplication.networkActivityIndicatorVisible = NO;
-        NSArray *sortedArray;
-        // sort the files
-        sortedArray = [responseObject sortedArrayUsingComparator:^NSComparisonResult(id a, id b) {
-            if ([a[@"type"] isEqualToString:@"directory"] && ![b[@"type"] isEqualToString:@"directory"])
-                return NSOrderedAscending;
-            if ([b[@"type"] isEqualToString:@"directory"] && ![a[@"type"] isEqualToString:@"directory"])
-                return NSOrderedDescending;
-            return [a[@"name"] compare:b[@"name"]];
-        }];
-        self.files = [NSMutableArray arrayWithArray:sortedArray];
-        
-        [self.tableView reloadData];
-        [self.refreshControl endRefreshing];
-    } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
-        UIApplication.sharedApplication.networkActivityIndicatorVisible = NO;
-        
-        if (operation.response.statusCode == 403 && self.getLevel == 1) {
-            // if these conditions are true, we are accesing something we only have public access to
-            self.files = [NSMutableArray arrayWithArray:@[@{@"name": @"public", @"type": @"directory"}]];
+    [self.mantaClient ls:self.currentPath callback:^(AFHTTPRequestOperation *operation, NSError *error, NSArray *objects) {
+        if (error) {
+            if (operation.response.statusCode == 403 && self.getLevel == 1) {
+                // if these conditions are true, we are accesing something we only have public access to
+                self.files = [NSMutableArray arrayWithArray:@[@{@"name": @"public", @"type": @"directory"}]];
+            } else {
+                // a real error occurred, make an alert
+                NSString *msg =  error.userInfo[NSLocalizedDescriptionKey];
+                if (!msg)
+                    msg = @"An unknown error has occurred";
+                UIAlertView *alert = [[UIAlertView alloc]
+                                      initWithTitle:@"Error"
+                                      message:msg
+                                      delegate:nil
+                                      cancelButtonTitle:@"Dismiss"
+                                      otherButtonTitles:nil];
+                [alert show];
+            }
         } else {
-            // a real error occurred, make an alert
-            NSString *msg =  error.userInfo[NSLocalizedDescriptionKey];
-            if (!msg)
-                msg = @"An unknown error has occurred";
-            UIAlertView *alert = [[UIAlertView alloc]
-                                  initWithTitle:@"Error"
-                                  message:msg
-                                  delegate:nil
-                                  cancelButtonTitle:@"Dismiss"
-                                  otherButtonTitles:nil];
-            [alert show];
+            self.files = [NSMutableArray arrayWithArray:objects];
         }
         
         [self.tableView reloadData];
         [self.refreshControl endRefreshing];
+        UIApplication.sharedApplication.networkActivityIndicatorVisible = NO;
     }];
 }
 
@@ -154,7 +144,7 @@
     
     NSArray *icons = [self iconsForFile:file[@"name"]];
     if (icons.count)
-        cell.imageView.image = icons[icons.count - 1];
+        cell.imageView.image = icons[0];
     else
         cell.imageView.image = nil;
     
@@ -180,17 +170,21 @@
     } else if (editingStyle == UITableViewCellEditingStyleInsert) {
         
     }
-    if (self.isRootView)
+    if (self.isRootView) {
         [NSUserDefaults.standardUserDefaults setObject:self.files forKey:@"Manta_Users_List"];
+        [self createMantaClients];
+    }
 }
 
 - (void)tableView:(UITableView *)tableView moveRowAtIndexPath:(NSIndexPath *)fromIndexPath toIndexPath:(NSIndexPath *)toIndexPath
 {
+    if (!self.isRootView)
+        return;
     id obj = self.files[fromIndexPath.row];
     [self.files removeObjectAtIndex:fromIndexPath.row];
     [self.files insertObject:obj atIndex:toIndexPath.row];
-    if (self.isRootView)
-        [NSUserDefaults.standardUserDefaults setObject:self.files forKey:@"Manta_Users_List"];
+    [NSUserDefaults.standardUserDefaults setObject:self.files forKey:@"Manta_Users_List"];
+    [self createMantaClients];
 }
 
 - (BOOL)tableView:(UITableView *)tableView canMoveRowAtIndexPath:(NSIndexPath *)indexPath
@@ -233,6 +227,10 @@
         newSubdirectoryController.currentPath = subpath;
         newSubdirectoryController.title = subpath.lastPathComponent;
         newSubdirectoryController.mantaURL = self.mantaURL;
+        
+        newSubdirectoryController.mantaClient = self.mantaClient;
+        if (!newSubdirectoryController.mantaClient)
+            newSubdirectoryController.mantaClient = self.mantaClients[object[@"name"]];
         
         if (!newSubdirectoryController.mantaURL) {
             NSMutableString *URLString = [NSMutableString stringWithString:object[@"url"]];
@@ -316,39 +314,18 @@
     return docController.icons;
 }
 
-#pragma mark - RSA
-- (NSData *)getSignatureBytes:(NSData *)plainText withPrivateKey:(SecKeyRef)privateKey
+// create manta clients
+- (void)createMantaClients
 {
-	OSStatus sanityCheck = noErr;
-	NSData * signedHash = nil;
-	
-	size_t signedHashBytesSize = SecKeyGetBlockSize(privateKey);
-	uint8_t *signedHashBytes = malloc(signedHashBytesSize * sizeof(uint8_t));
-    if (signedHashBytes == NULL)
-        return nil;
-    
-	memset((void *)signedHashBytes, 0x0, signedHashBytesSize);
-	sanityCheck = SecKeyRawSign(privateKey,
-                                kSecPaddingPKCS1SHA256,
-                                (const uint8_t *)[[self getHash256Bytes:plainText] bytes],
-                                CC_SHA256_DIGEST_LENGTH,
-                                (uint8_t *)signedHashBytes,
-                                &signedHashBytesSize);
-	
-	signedHash = [NSData dataWithBytes:(const void *)signedHashBytes length:(NSUInteger)signedHashBytesSize];
-	if (signedHashBytes)
-        free(signedHashBytes);
-	
-	return signedHash;
+    if (!self.isRootView)
+        return;
+    NSArray *u = [NSUserDefaults.standardUserDefaults arrayForKey:@"Manta_Users_List"];
+    for (NSDictionary *account in u) {
+        NSString *accountName = account[@"name"];
+        NSURL *mantaURL = [NSURL URLWithString:account[@"url"]];
+        MantaClient *mc = [[MantaClient alloc] initWithAccountName:accountName andMantaURL:mantaURL];
+        self.mantaClients[accountName] = mc;
+    }
 }
-
-- (NSData *)getHash256Bytes:(NSData *)plainText
-{
-    NSMutableData *macOut = [NSMutableData dataWithLength:CC_SHA256_DIGEST_LENGTH];
-    CC_SHA256(plainText.bytes, plainText.length,  macOut.mutableBytes);
-    return macOut;
-}
-
-
 
 @end

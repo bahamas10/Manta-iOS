@@ -10,6 +10,7 @@
 
 #import <AFNetworking/AFHTTPRequestOperationManager.h>
 #import <AFNetworking/AFURLSessionManager.h>
+#import <MBProgressHUD/MBProgressHUD.h>
 
 @interface IndividualFileTableViewController ()
 
@@ -63,15 +64,15 @@
 - (void)didReceiveMemoryWarning
 {
     [super didReceiveMemoryWarning];
-    // Dispose of any resources that can be recreated.
 }
 
 #pragma mark - IBAction
 - (IBAction)downloadFileButtonPressed:(id)sender
 {
     if ([self.file[@"size"] integerValue] > MAX_DOWNLOAD_SIZE_BYTES) {
+        NSString *msg = [NSString stringWithFormat:@"File is greater than %@", [self humanReadableBytes:MAX_DOWNLOAD_SIZE_BYTES]];
         UIAlertView *message = [[UIAlertView alloc] initWithTitle:@"File too big"
-                                                          message:[NSString stringWithFormat:@"File is greater than %@", [self humanReadableBytes:MAX_DOWNLOAD_SIZE_BYTES]]
+                                                          message:msg
                                                          delegate:nil
                                                 cancelButtonTitle:@"OK"
                                                 otherButtonTitles:nil];
@@ -94,16 +95,31 @@
     AFURLSessionManager *manager = [[AFURLSessionManager alloc] initWithSessionConfiguration:configuration];
     NSURLRequest *request = [NSURLRequest requestWithURL:self.remoteURL];
     
+    [MBProgressHUD showHUDAddedTo:self.view animated:YES];
+    UIApplication.sharedApplication.networkActivityIndicatorVisible = YES;
     NSURLSessionDownloadTask *downloadTask = [manager downloadTaskWithRequest:request progress:nil destination:^NSURL *(NSURL *targetPath, NSURLResponse *response) {
         return [NSURL fileURLWithPath:self.localFilePath];
-        
-        self.downloadButton.enabled = YES;
-        [self refresh:self];
     } completionHandler:^(NSURLResponse *response, NSURL *filePath, NSError *error) {
         NSLog(@"File downloaded to: %@", filePath);
         
         self.downloadButton.enabled = YES;
         [self refresh:self];
+        [MBProgressHUD hideHUDForView:self.view animated:YES];
+        UIApplication.sharedApplication.networkActivityIndicatorVisible = NO;
+        
+        if (error) {
+            NSString *msg =  error.userInfo[NSLocalizedDescriptionKey];
+            if (!msg)
+                msg = [NSString stringWithFormat:@"Failed to open\n%@", self.remoteURL];
+            UIAlertView *alert = [[UIAlertView alloc]
+                                  initWithTitle:@"Error Downloading File"
+                                  message:msg
+                                  delegate:nil
+                                  cancelButtonTitle:@"Dismiss"
+                                  otherButtonTitles:nil];
+            [alert show];
+            
+        }
     }];
     [downloadTask resume];
 }
@@ -144,18 +160,18 @@
     NSString *units;
     NSInteger amount;
     if ((amount = bytes / 1024 / 1024 / 1024 / 1024))
-        units = @"T";
+        units = @"TB";
     else if ((amount = bytes / 1024 / 1024 / 1024))
-        units = @"G";
+        units = @"GB";
     else if ((amount = bytes / 1024 / 1024))
-        units = @"M";
+        units = @"MB";
     else if ((amount = bytes / 1024))
-        units = @"K";
+        units = @"KB";
     else
         units = @"B";
     if (!amount)
         amount = bytes;
-    return [NSString stringWithFormat:@"%d%@", amount, units];
+    return [NSString stringWithFormat:@"%d %@", amount, units];
 }
 
 #pragma mark - UIActionSheet Delegate
