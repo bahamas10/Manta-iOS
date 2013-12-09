@@ -47,12 +47,6 @@
         //self.navigationItem.rightBarButtonItem = addBarButtonItem;
     }
 
-    // add pull to refresh
-    UIRefreshControl *refresh = [[UIRefreshControl alloc] init];
-    refresh.attributedTitle = [[NSAttributedString alloc] initWithString:@"Pull to Refresh"];
-    [refresh addTarget:self action:@selector(refresh:) forControlEvents:UIControlEventValueChanged];
-    self.refreshControl = refresh;
-    
     // load the table
     [self refresh];
 }
@@ -118,34 +112,6 @@
     }];
 }
 
-- (void)downloadFile:(NSString *)filename
-{
-    NSURL *URL = [NSURL URLWithString:[NSString stringWithFormat:@"%@%@/%@",
-                                       self.mantaURL.absoluteString,
-                                       self.currentPath,
-                                       filename]];
-    NSString *localFile = [[self documentsDirectoryPath] stringByAppendingPathComponent:URL.path];
-    NSLog(@"localFile = %@", localFile);
-    
-    BOOL isDir = NO;
-    BOOL fileExists = [NSFileManager.defaultManager fileExistsAtPath:localFile isDirectory:&isDir];
-    if (fileExists && isDir) {
-        // delete the directory, because the remote end says it is a file (object)
-        NSLog(@"%@ is a directory when it should be a file, removing it", localFile);
-        [NSFileManager.defaultManager removeItemAtPath:localFile error:nil];
-    }
-    
-    NSURLSessionConfiguration *configuration = [NSURLSessionConfiguration defaultSessionConfiguration];
-    AFURLSessionManager *manager = [[AFURLSessionManager alloc] initWithSessionConfiguration:configuration];
-    NSURLRequest *request = [NSURLRequest requestWithURL:URL];
-    
-    NSURLSessionDownloadTask *downloadTask = [manager downloadTaskWithRequest:request progress:nil destination:^NSURL *(NSURL *targetPath, NSURLResponse *response) {
-        return [NSURL fileURLWithPath:localFile];
-    } completionHandler:^(NSURLResponse *response, NSURL *filePath, NSError *error) {
-        NSLog(@"File downloaded to: %@", filePath);
-    }];
-    [downloadTask resume];
-}
 
 #pragma mark - IBAction and Selectors
 - (IBAction)refresh:(id)sender
@@ -176,11 +142,15 @@
     cell.nameLabel.text = file[@"name"];
     cell.mtimeLabel.text = file[@"mtime"];
     
-    if (![file[@"type"] isEqualToString:@"object"])
+    if (![file[@"type"] isEqualToString:@"object"]) {
         cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
-    else
+    } else {
         cell.accessoryType = UITableViewCellAccessoryNone;
+    }
     
+    if ([file[@"type"] isEqualToString:@"directory"]) {
+        cell.nameLabel.text = [NSString stringWithFormat:@"%@/", file[@"name"]];
+    }
     
     NSArray *icons = [self iconsForFile:file[@"name"]];
     if (icons.count)
@@ -341,7 +311,6 @@
 // return icons for a given filename
 - (NSArray *)iconsForFile:(NSString *)file
 {
-    NSLog(@"iconsForFile:%@", file);
     UIDocumentInteractionController *docController = [[UIDocumentInteractionController alloc] init];
     docController.name = file;
     return docController.icons;

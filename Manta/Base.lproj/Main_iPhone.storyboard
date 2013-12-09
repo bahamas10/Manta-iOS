@@ -119,6 +119,20 @@
                             </connections>
                         </barButtonItem>
                     </navigationItem>
+                    <refreshControl key="refreshControl" opaque="NO" multipleTouchEnabled="YES" contentMode="center" enabled="NO" contentHorizontalAlignment="center" contentVerticalAlignment="center" id="Uzt-b5-HJo">
+                        <autoresizingMask key="autoresizingMask"/>
+                        <attributedString key="attributedTitle">
+                            <fragment content="Pull to Refresh">
+                                <attributes>
+                                    <font key="NSFont" metaFont="toolTip"/>
+                                    <paragraphStyle key="NSParagraphStyle" alignment="center" lineBreakMode="wordWrapping" baseWritingDirection="natural"/>
+                                </attributes>
+                            </fragment>
+                        </attributedString>
+                        <connections>
+                            <action selector="refresh:" destination="Xx0-3g-EJf" eventType="valueChanged" id="fvq-Fc-eLc"/>
+                        </connections>
+                    </refreshControl>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="ifp-KK-InO" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
@@ -275,11 +289,11 @@
                                 <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="lpf-hG-13R">
                                     <rect key="frame" x="0.0" y="52" width="320" height="44"/>
                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                    <state key="normal" title="Open URL">
+                                    <state key="normal" title="Open File">
                                         <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                     </state>
                                     <connections>
-                                        <action selector="openURLButtonPressed:" destination="bdr-UL-ILs" eventType="touchUpInside" id="bpC-TG-XJZ"/>
+                                        <action selector="openFileButtonPressed:" destination="bdr-UL-ILs" eventType="touchUpInside" id="RB2-z8-kj4"/>
                                     </connections>
                                 </button>
                             </subviews>
@@ -368,12 +382,33 @@
                         </connections>
                     </tableView>
                     <navigationItem key="navigationItem" title="File Name" id="WUq-78-ycy">
-                        <barButtonItem key="rightBarButtonItem" systemItem="action" id="aog-hb-1M2"/>
+                        <barButtonItem key="rightBarButtonItem" systemItem="action" id="aog-hb-1M2">
+                            <connections>
+                                <action selector="shareButtonPressed:" destination="bdr-UL-ILs" id="jzx-Bj-rJY"/>
+                            </connections>
+                        </barButtonItem>
                     </navigationItem>
+                    <refreshControl key="refreshControl" opaque="NO" multipleTouchEnabled="YES" contentMode="center" enabled="NO" contentHorizontalAlignment="center" contentVerticalAlignment="center" id="dve-Oh-rGd">
+                        <autoresizingMask key="autoresizingMask"/>
+                        <attributedString key="attributedTitle">
+                            <fragment content="Pull to Refresh">
+                                <attributes>
+                                    <font key="NSFont" metaFont="toolTip"/>
+                                    <paragraphStyle key="NSParagraphStyle" alignment="center" lineBreakMode="wordWrapping" baseWritingDirection="natural"/>
+                                </attributes>
+                            </fragment>
+                        </attributedString>
+                        <connections>
+                            <action selector="refresh:" destination="bdr-UL-ILs" eventType="valueChanged" id="MgN-AX-UbC"/>
+                        </connections>
+                    </refreshControl>
                     <connections>
                         <outlet property="availableLabel" destination="s8z-h1-9Kd" id="eMr-nF-aBa"/>
+                        <outlet property="downloadButton" destination="UvA-vi-2M6" id="WTT-g0-97Y"/>
                         <outlet property="mtimeLabel" destination="E9Z-FU-ogS" id="voO-S6-l3S"/>
+                        <outlet property="openButton" destination="lpf-hG-13R" id="DyJ-2Y-iVd"/>
                         <outlet property="pathLabel" destination="hqI-w6-5bm" id="Voq-3j-3T9"/>
+                        <outlet property="shareButtonItem" destination="aog-hb-1M2" id="KGv-Yr-7Ml"/>
                         <outlet property="sizeLabel" destination="hvl-1b-H6x" id="OsU-R4-fll"/>
                     </connections>
                 </tableViewController>
