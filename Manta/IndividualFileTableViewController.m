@@ -12,6 +12,8 @@
 #import <AFNetworking/AFURLSessionManager.h>
 #import <MBProgressHUD/MBProgressHUD.h>
 
+#import "MantaClient.h"
+
 @interface IndividualFileTableViewController ()
 
 @end
@@ -25,8 +27,9 @@
 - (id)initWithStyle:(UITableViewStyle)style
 {
     self = [super initWithStyle:style];
-    if (self) {
-    }
+    if (!self)
+        return self;
+    
     return self;
 }
 
@@ -35,7 +38,7 @@
     [super viewDidLoad];
     NSLog(@"file = %@", self.file);
     
-    self.pathLabel.text = [NSString stringWithFormat:@"\n%@\n\n", self.remoteURL.path];
+    self.pathLabel.text = [NSString stringWithFormat:@"\n%@\n", self.remoteFilePath];
     [self.pathLabel sizeToFit];
     self.mtimeLabel.text = self.file[@"mtime"];
     self.sizeLabel.text = [self humanReadableBytes:[self.file[@"size"] integerValue]];
@@ -50,7 +53,7 @@
     [actionSheet addButtonWithTitle:@"Copy Link"];
     actionSheet.cancelButtonIndex = [actionSheet addButtonWithTitle:@"Cancel"];
     
-    NSArray *components = [self.remoteURL.path componentsSeparatedByString:@"/"];
+    NSArray *components = [self.remoteFilePath componentsSeparatedByString:@"/"];
     if (components.count < 2 || ![components[2] isEqualToString:@"public"])
         self.navigationItem.rightBarButtonItem = nil;
 }
@@ -93,7 +96,10 @@
     
     NSURLSessionConfiguration *configuration = [NSURLSessionConfiguration defaultSessionConfiguration];
     AFURLSessionManager *manager = [[AFURLSessionManager alloc] initWithSessionConfiguration:configuration];
-    NSURLRequest *request = [NSURLRequest requestWithURL:self.remoteURL];
+    NSLog(@"remoteFilePath = %@", self.remoteFilePath);
+    NSURL *remoteURL = [self.mantaClient URLForPath:self.remoteFilePath];
+    NSLog(@"remoteURL = %@", remoteURL);
+    NSURLRequest *request = [NSURLRequest requestWithURL:remoteURL];
     
     [MBProgressHUD showHUDAddedTo:self.view animated:YES];
     UIApplication.sharedApplication.networkActivityIndicatorVisible = YES;
@@ -110,7 +116,7 @@
         if (error) {
             NSString *msg =  error.userInfo[NSLocalizedDescriptionKey];
             if (!msg)
-                msg = [NSString stringWithFormat:@"Failed to open\n%@", self.remoteURL];
+                msg = [NSString stringWithFormat:@"Failed to open\n%@", remoteURL];
             UIAlertView *alert = [[UIAlertView alloc]
                                   initWithTitle:@"Error Downloading File"
                                   message:msg
@@ -129,8 +135,9 @@
     NSURL *localFileURL = [NSURL fileURLWithPath:self.localFilePath];
     interactionController = [UIDocumentInteractionController interactionControllerWithURL:localFileURL];
     interactionController.delegate = self;
-    //[interactionController presentOpenInMenuFromBarButtonItem:self.shareButtonItem animated:YES];
-    [interactionController presentPreviewAnimated:YES];
+    
+    [interactionController presentOptionsMenuFromBarButtonItem:self.shareButtonItem animated:YES];
+    //[interactionController presentPreviewAnimated:YES];
 }
 
 - (IBAction)shareButtonPressed:(id)sender
@@ -176,13 +183,15 @@
 
 #pragma mark - UIActionSheet Delegate
 - (void)actionSheet:(UIActionSheet *)actionSheet_ clickedButtonAtIndex:(NSInteger)buttonIndex {
+    NSURL *remoteURL = [self.mantaClient URLForPath:self.remoteFilePath];
+    
     NSString *buttonTitle = [actionSheet_ buttonTitleAtIndex:buttonIndex];
     if ([buttonTitle isEqualToString:@"Open File"]) {
         [self openFileButtonPressed:self];
     } else if ([buttonTitle isEqualToString:@"Open in Safari"]) {
-        [UIApplication.sharedApplication openURL:self.remoteURL];
+        [UIApplication.sharedApplication openURL:remoteURL];
     } else if ([buttonTitle isEqualToString:@"Copy Link"]) {
-        UIPasteboard.generalPasteboard.string = self.remoteURL.absoluteString;
+        UIPasteboard.generalPasteboard.string = remoteURL.absoluteString;
     }
 }
 
@@ -194,7 +203,7 @@
 
 - (UIView *)documentInteractionControllerViewForPreview:(UIDocumentInteractionController *)controller
 {
-    return self.navigationController.view;
+    return self.view;
 }
 
 @end

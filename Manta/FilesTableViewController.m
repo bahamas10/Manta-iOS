@@ -7,15 +7,9 @@
 //
 
 #import "FilesTableViewController.h"
-#import "JSONStreamResponseSerializer.h"
 #import "FilesTableViewCell.h"
 #import "IndividualFileTableViewController.h"
 #import "MantaClient.h"
-
-#import <AFNetworking/AFHTTPRequestOperationManager.h>
-#import <AFNetworking/AFURLSessionManager.h>
-
-#import <MBProgressHUD/MBProgressHUD.h>
 
 @interface FilesTableViewController ()
 
@@ -26,59 +20,23 @@
 #pragma mark - Lifecycle
 - (void)awakeFromNib
 {
-    if (self.isRootView) {
-        NSArray *u = [NSUserDefaults.standardUserDefaults arrayForKey:@"Manta_Users_List"];
-        self.files = [NSMutableArray arrayWithArray:u];
-        self.currentPath = @"/";
-        self.mantaClients = [NSMutableDictionary new];
-        [self createMantaClients];
-    }
 }
 
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-    
-    if (self.isRootView) {
-        self.navigationItem.leftBarButtonItem = self.editButtonItem;
-    }
-    
-    if (!self.isRootView) {
-        self.navigationItem.rightBarButtonItem = nil;
-        
-        //UIBarButtonItem *addBarButtonItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemAdd target:self action:@selector(addButtonPressed:)];
-        //self.navigationItem.rightBarButtonItem = addBarButtonItem;
-    }
-
-    // load the table
-    [self refresh];
+    [self refresh:self];
 }
 
-- (void)viewDidAppear:(BOOL)animated
+#pragma mark - IBAction and Selectors
+- (IBAction)refresh:(id)sender
 {
-    [super viewDidAppear:animated];
-    if (self.isRootView)
-        [self refresh];
-}
-
-#pragma mark - Manta API
-- (void)refresh
-{
-    if (self.isRootView) {
-        NSArray *u = [NSUserDefaults.standardUserDefaults arrayForKey:@"Manta_Users_List"];
-        self.files = [NSMutableArray arrayWithArray:u];
-        [self.tableView reloadData];
-        [self createMantaClients];
-        [self.refreshControl endRefreshing];
-        return;
-    }
-
     UIApplication.sharedApplication.networkActivityIndicatorVisible = YES;
     [self.mantaClient ls:self.currentPath callback:^(AFHTTPRequestOperation *operation, NSError *error, NSArray *objects) {
         if (error) {
             if (operation.response.statusCode == 403 && self.getLevel == 1) {
                 // if these conditions are true, we are accesing something we only have public access to
-                self.files = [NSMutableArray arrayWithArray:@[@{@"name": @"public", @"type": @"directory"}]];
+                self.files = @[@{@"name": @"public", @"type": @"directory"}];
             } else {
                 // a real error occurred, make an alert
                 NSString *msg =  error.userInfo[NSLocalizedDescriptionKey];
@@ -93,20 +51,20 @@
                 [alert show];
             }
         } else {
-            self.files = [NSMutableArray arrayWithArray:objects];
+             NSArray *sorteddArray = [objects sortedArrayUsingComparator:^NSComparisonResult(id a, id b) {
+                 if ([a[@"type"] isEqualToString:@"directory"] && ![b[@"type"] isEqualToString:@"directory"])
+                     return NSOrderedAscending;
+                 if ([b[@"type"] isEqualToString:@"directory"] && ![a[@"type"] isEqualToString:@"directory"])
+                     return NSOrderedDescending;
+                 return [a[@"name"] compare:b[@"name"]];
+             }];
+            self.files = sorteddArray;
         }
         
         [self.tableView reloadData];
         [self.refreshControl endRefreshing];
         UIApplication.sharedApplication.networkActivityIndicatorVisible = NO;
     }];
-}
-
-
-#pragma mark - IBAction and Selectors
-- (IBAction)refresh:(id)sender
-{
-    [self refresh];
 }
 
 #pragma mark - Table view data source
@@ -122,7 +80,7 @@
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    static NSString *CellIdentifier = @"UserCell";
+    static NSString *CellIdentifier = @"FilesCell";
     FilesTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
     if (!cell) {
         cell = [[FilesTableViewCell alloc] init];
@@ -156,40 +114,14 @@
     return self.canEdit;
 }
 
-- (UITableViewCellEditingStyle)tableView:(UITableView *)tableView editingStyleForRowAtIndexPath:(NSIndexPath *)indexPath
-{
-    return UITableViewCellEditingStyleDelete;
-}
-
 - (void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath
 {
     if (editingStyle == UITableViewCellEditingStyleDelete) {
-        // Delete the row from the data source
-        [self.files removeObjectAtIndex:indexPath.row];
-        [tableView deleteRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationFade];
+        // TODO unlink file from manta
     } else if (editingStyle == UITableViewCellEditingStyleInsert) {
         
     }
-    if (self.isRootView) {
-        [NSUserDefaults.standardUserDefaults setObject:self.files forKey:@"Manta_Users_List"];
-        [self createMantaClients];
-    }
-}
-
-- (void)tableView:(UITableView *)tableView moveRowAtIndexPath:(NSIndexPath *)fromIndexPath toIndexPath:(NSIndexPath *)toIndexPath
-{
-    if (!self.isRootView)
-        return;
-    id obj = self.files[fromIndexPath.row];
-    [self.files removeObjectAtIndex:fromIndexPath.row];
-    [self.files insertObject:obj atIndex:toIndexPath.row];
-    [NSUserDefaults.standardUserDefaults setObject:self.files forKey:@"Manta_Users_List"];
-    [self createMantaClients];
-}
-
-- (BOOL)tableView:(UITableView *)tableView canMoveRowAtIndexPath:(NSIndexPath *)indexPath
-{
-    return self.isRootView;
+    [self refresh:self];
 }
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
@@ -207,16 +139,14 @@
         //[self downloadFile:object[@"name"]];
         IndividualFileTableViewController *individualFileViewController = [self.navigationController.storyboard instantiateViewControllerWithIdentifier:@"IndividualFileTableVC"];
         
-        NSURL *URL = [NSURL URLWithString:[NSString stringWithFormat:@"%@%@/%@",
-                                           self.mantaURL.absoluteString,
-                                           self.currentPath,
-                                           object[@"name"]]];
-        NSString *localFile = [[self documentsDirectoryPath] stringByAppendingPathComponent:URL.path];
+        NSString *remotePath = [self.currentPath stringByAppendingPathComponent:object[@"name"]];
+        NSString *localFile = [[self documentsDirectoryPath] stringByAppendingPathComponent:remotePath];
         
         individualFileViewController.file = object;
         individualFileViewController.title = object[@"name"];
         individualFileViewController.localFilePath = localFile;
-        individualFileViewController.remoteURL = URL;
+        individualFileViewController.remoteFilePath = remotePath;
+        individualFileViewController.mantaClient = self.mantaClient;
         
         [tableView deselectRowAtIndexPath:indexPath animated:YES];
         [self.navigationController pushViewController:individualFileViewController animated:YES];
@@ -226,20 +156,7 @@
         NSString *subpath = [self.currentPath stringByAppendingPathComponent:object[@"name"]];
         newSubdirectoryController.currentPath = subpath;
         newSubdirectoryController.title = subpath.lastPathComponent;
-        newSubdirectoryController.mantaURL = self.mantaURL;
-        
         newSubdirectoryController.mantaClient = self.mantaClient;
-        if (!newSubdirectoryController.mantaClient)
-            newSubdirectoryController.mantaClient = self.mantaClients[object[@"name"]];
-        
-        if (!newSubdirectoryController.mantaURL) {
-            NSMutableString *URLString = [NSMutableString stringWithString:object[@"url"]];
-            // remove trailing slash from URL
-            while ([URLString hasSuffix: @"/"])
-                [URLString deleteCharactersInRange:NSMakeRange(URLString.length - 1, 1)];
-            
-            newSubdirectoryController.mantaURL = [NSURL URLWithString:URLString];
-        }
         
         // make the subdirectory if necessary
         NSString *localSubDirectory = [[self documentsDirectoryPath] stringByAppendingPathComponent:subpath];
@@ -274,12 +191,6 @@
 }
 
 #pragma mark - Helper functions
-// check if the current view is the root of the stack
-- (BOOL)isRootView
-{
-    return self.getLevel ? NO : YES;
-}
-
 // get the current stack level of the views
 - (NSInteger)getLevel
 {
@@ -290,8 +201,7 @@
 - (BOOL)canEdit
 {
     NSArray *components = [self.currentPath componentsSeparatedByString:@"/"];
-    return (self.isRootView) ||
-           (self.getLevel >= 2 && components.count >= 3 && ![components[2] isEqualToString:@"public"]);
+    return components.count >= 3 && ![components[2] isEqualToString:@"public"];
 }
 
 // return the document directory path
@@ -312,20 +222,6 @@
     UIDocumentInteractionController *docController = [[UIDocumentInteractionController alloc] init];
     docController.name = file;
     return docController.icons;
-}
-
-// create manta clients
-- (void)createMantaClients
-{
-    if (!self.isRootView)
-        return;
-    NSArray *u = [NSUserDefaults.standardUserDefaults arrayForKey:@"Manta_Users_List"];
-    for (NSDictionary *account in u) {
-        NSString *accountName = account[@"name"];
-        NSURL *mantaURL = [NSURL URLWithString:account[@"url"]];
-        MantaClient *mc = [[MantaClient alloc] initWithAccountName:accountName andMantaURL:mantaURL];
-        self.mantaClients[accountName] = mc;
-    }
 }
 
 @end

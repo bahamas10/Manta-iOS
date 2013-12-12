@@ -11,6 +11,13 @@
 #import <AFNetworking/AFHTTPRequestOperation.h>
 
 @interface MantaClient : NSObject
+
+#define MANTA_MAX_LS_LIMIT 1000
+
+@property (nonatomic, strong) NSString *accountName;
+@property (nonatomic, strong) NSURL *mantaURL;
+@property (nonatomic, strong) NSData *privateKey;
+
 - (id)init;
 
 - (id)initWithAccountName:(NSString *)accountName
@@ -20,10 +27,18 @@
               andMantaURL:(NSURL *)mantaURL
             andPrivateKey:(NSData *)privateKey;
 
-- (void)ls:(NSString *)remotePath 
-  callback:(void(^)(AFHTTPRequestOperation *operation, NSError *error, NSArray *objects))callback;
+- (NSURL *)URLForPath:(NSString *)path;
 
-@property (nonatomic, strong) NSString *accountName;
-@property (nonatomic, strong) NSURL *mantaURL;
-@property (nonatomic, strong) NSData *privateKey;
+- (void)ls:(NSString *)remotePath 
+  callback:(void(^)(AFHTTPRequestOperation *, NSError *, NSArray *))callback;
+
+- (void)ls:(NSString *)remotePath
+     limit:(NSInteger)limit
+  callback:(void(^)(AFHTTPRequestOperation *, NSError *, NSArray *))callback;
+
+- (void)ls:(NSString *)remotePath
+     limit:(NSInteger)limit
+    marker:(NSString *)marker
+  callback:(void(^)(AFHTTPRequestOperation *, NSError *, NSArray *))callback;
+
 @end

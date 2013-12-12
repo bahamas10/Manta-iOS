@@ -8,10 +8,13 @@
 
 #import <UIKit/UIKit.h>
 
+#import "MantaClient.h"
+
 @interface IndividualFileTableViewController : UITableViewController <UIActionSheetDelegate, UIDocumentInteractionControllerDelegate>
 @property (strong, nonatomic) NSDictionary *file;
 @property (strong, nonatomic) NSString *localFilePath;
-@property (strong, nonatomic) NSURL *remoteURL;
+@property (strong, nonatomic) NSString *remoteFilePath;
+@property (strong, nonatomic) MantaClient *mantaClient;
 @property (weak, nonatomic) IBOutlet UIBarButtonItem *shareButtonItem;
 @property (weak, nonatomic) IBOutlet UILabel *pathLabel;
 @property (weak, nonatomic) IBOutlet UILabel *mtimeLabel;

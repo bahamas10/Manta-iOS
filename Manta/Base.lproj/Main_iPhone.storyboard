@@ -67,6 +67,46 @@
             </objects>
             <point key="canvasLocation" x="132" y="180"/>
         </scene>
+        <!--Users Table View Controller - Manta-->
+        <scene sceneID="VGw-4U-9xV">
+            <objects>
+                <tableViewController id="sPh-g3-tX8" customClass="UsersTableViewController" sceneMemberID="viewController">
+                    <tableView key="view" opaque="NO" clipsSubviews="YES" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="22" sectionFooterHeight="22" id="ssx-DL-bb6">
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <prototypes>
+                            <tableViewCell contentMode="scaleToFill" selectionStyle="blue" accessoryType="detailDisclosureButton" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="UsersCell" id="21O-6A-8Mr">
+                                <rect key="frame" x="0.0" y="86" width="320" height="44"/>
+                                <autoresizingMask key="autoresizingMask"/>
+                                <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="21O-6A-8Mr" id="6DV-0b-mlH">
+                                    <rect key="frame" x="0.0" y="0.0" width="253" height="43"/>
+                                    <autoresizingMask key="autoresizingMask"/>
+                                </tableViewCellContentView>
+                                <connections>
+                                    <segue destination="vWD-Nj-jIi" kind="push" identifier="ModifyAccountSegue" trigger="accessoryAction" id="e5f-tr-oXn"/>
+                                    <segue destination="Xx0-3g-EJf" kind="push" identifier="UserAccountSegue" id="qQh-eu-3PZ"/>
+                                </connections>
+                            </tableViewCell>
+                        </prototypes>
+                        <connections>
+                            <outlet property="dataSource" destination="sPh-g3-tX8" id="hw8-yy-SPq"/>
+                            <outlet property="delegate" destination="sPh-g3-tX8" id="FPp-z0-eKM"/>
+                        </connections>
+                    </tableView>
+                    <navigationItem key="navigationItem" title="Manta" id="0Xd-H3-f3q">
+                        <barButtonItem key="leftBarButtonItem" systemItem="edit" id="Edf-pa-PCd"/>
+                        <barButtonItem key="rightBarButtonItem" systemItem="add" id="ov7-DL-OCg">
+                            <connections>
+                                <segue destination="vWD-Nj-jIi" kind="push" identifier="AddAccountSegue" id="9Uk-DT-XMI"/>
+                            </connections>
+                        </barButtonItem>
+                    </navigationItem>
+                </tableViewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="lVf-wb-kw6" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="1089" y="-306"/>
+        </scene>
         <!--Files Table View Controller - Manta-->
         <scene sceneID="J9o-LS-LB3">
             <objects>
@@ -76,7 +116,7 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <prototypes>
-                            <tableViewCell contentMode="scaleToFill" selectionStyle="blue" accessoryType="disclosureIndicator" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="UserCell" id="5NS-lT-ohB" customClass="FilesTableViewCell">
+                            <tableViewCell contentMode="scaleToFill" selectionStyle="blue" accessoryType="disclosureIndicator" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="FilesCell" id="5NS-lT-ohB" customClass="FilesTableViewCell">
                                 <rect key="frame" x="0.0" y="86" width="320" height="44"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="5NS-lT-ohB" id="22d-Ch-TMU">
@@ -112,13 +152,7 @@
                             </tableViewCell>
                         </prototypes>
                     </tableView>
-                    <navigationItem key="navigationItem" title="Manta" id="4Th-BQ-pz7">
-                        <barButtonItem key="rightBarButtonItem" systemItem="add" id="zc7-eb-pyu">
-                            <connections>
-                                <segue destination="vWD-Nj-jIi" kind="push" id="lZI-nu-s1D"/>
-                            </connections>
-                        </barButtonItem>
-                    </navigationItem>
+                    <navigationItem key="navigationItem" title="Manta" id="4Th-BQ-pz7"/>
                     <refreshControl key="refreshControl" opaque="NO" multipleTouchEnabled="YES" contentMode="center" enabled="NO" contentHorizontalAlignment="center" contentVerticalAlignment="center" id="Uzt-b5-HJo">
                         <autoresizingMask key="autoresizingMask"/>
                         <attributedString key="attributedTitle">
@@ -136,12 +170,12 @@
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="ifp-KK-InO" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1151" y="-304"/>
+            <point key="canvasLocation" x="1855" y="56"/>
         </scene>
-        <!--Add Account View Controller - Add Account-->
+        <!--Modify Account Table View Controller - Add Account-->
         <scene sceneID="Rrw-bk-caD">
             <objects>
-                <tableViewController title="Add Account" id="vWD-Nj-jIi" customClass="AddAccountViewController" sceneMemberID="viewController">
+                <tableViewController title="Add Account" id="vWD-Nj-jIi" customClass="ModifyAccountTableViewController" sceneMemberID="viewController">
                     <tableView key="view" opaque="NO" clipsSubviews="YES" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" alwaysBounceVertical="YES" showsHorizontalScrollIndicator="NO" keyboardDismissMode="interactive" dataMode="static" style="grouped" separatorStyle="default" allowsSelection="NO" rowHeight="44" sectionHeaderHeight="10" sectionFooterHeight="10" id="HXO-Ei-9EU">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -157,7 +191,7 @@
                             </connections>
                         </button>
                         <sections>
-                            <tableViewSection headerTitle="Add Account" id="q7Z-hs-FZB">
+                            <tableViewSection headerTitle="Account Details" id="q7Z-hs-FZB">
                                 <cells>
                                     <tableViewCell contentMode="scaleToFill" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" id="Yxs-Ta-UDp">
                                         <rect key="frame" x="0.0" y="119" width="320" height="44"/>
@@ -247,7 +281,7 @@
                             <outlet property="delegate" destination="vWD-Nj-jIi" id="tZo-nH-L9b"/>
                         </connections>
                     </tableView>
-                    <navigationItem key="navigationItem" title="Add Account" id="pcy-r9-NLN"/>
+                    <navigationItem key="navigationItem" title="Modify Account" id="pcy-r9-NLN"/>
                     <connections>
                         <outlet property="nameField" destination="u74-cR-0nm" id="flh-6Q-sZj"/>
                         <outlet property="urlField" destination="Jg3-zb-W9q" id="lm3-lm-VM2"/>
@@ -255,7 +289,7 @@
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="nj3-h0-feq" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1700" y="-869"/>
+            <point key="canvasLocation" x="1836" y="-717"/>
         </scene>
         <!--Individual File Table View Controller - File Name-->
         <scene sceneID="glV-l3-mag">
@@ -414,7 +448,7 @@
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="EG2-pL-PeW" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1700" y="-138"/>
+            <point key="canvasLocation" x="2404" y="222"/>
         </scene>
         <!--Navigation Controller - Files-->
         <scene sceneID="r2Q-RT-MLC">
@@ -425,12 +459,12 @@
                         <autoresizingMask key="autoresizingMask"/>
                     </navigationBar>
                     <connections>
-                        <segue destination="Xx0-3g-EJf" kind="relationship" relationship="rootViewController" id="EJO-Or-OvV"/>
+                        <segue destination="sPh-g3-tX8" kind="relationship" relationship="rootViewController" id="427-Dg-QdB"/>
                     </connections>
                 </navigationController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="s7F-KK-f1U" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="617" y="-304"/>
+            <point key="canvasLocation" x="553" y="-294"/>
         </scene>
     </scenes>
     <resources>
@@ -442,4 +476,7 @@
         <simulatedOrientationMetrics key="orientation"/>
         <simulatedScreenMetrics key="destination" type="retina4"/>
     </simulatedMetricsContainer>
+    <inferredMetricsTieBreakers>
+        <segue reference="9Uk-DT-XMI"/>
+    </inferredMetricsTieBreakers>
 </document>

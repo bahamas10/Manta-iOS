@@ -1,5 +1,5 @@
 //
-//  AddAccountViewController.h
+//  ModifyAccountViewController.h
 //  Manta
 //
 //  Created by Dave Eddy on 12/8/13.
@@ -8,9 +8,9 @@
 
 #import <UIKit/UIKit.h>
 
-@interface AddAccountViewController : UITableViewController
+@interface ModifyAccountTableViewController : UITableViewController
 @property (weak, nonatomic) IBOutlet UITextField *nameField;
 @property (weak, nonatomic) IBOutlet UITextField *urlField;
 - (IBAction)dismissKeyboard:(id)sender;
-- (IBAction)addAccountButtonPressed:(id)sender;
+- (IBAction)ModifyAccountButtonPressed:(id)sender;
 @end

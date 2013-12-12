@@ -39,36 +39,51 @@
     self.mantaURL = mantaURL;
     self.privateKey = privateKey;
     
-    // remove trailing slash from URL
-    NSMutableString *URLString = [NSMutableString stringWithString:self.mantaURL.absoluteString];
-    while ([URLString hasSuffix: @"/"])
-        [URLString deleteCharactersInRange:NSMakeRange(URLString.length - 1, 1)];
-    
-    self.mantaURL = [NSURL URLWithString:URLString];
-    
     return self;
 }
 
-- (void)ls:(NSString *)remotePath callback:(void(^)(AFHTTPRequestOperation *, NSError *, NSArray *))callback// *operation, NSError *error, NSArray *objects))callback
+- (NSURL *)URLForPath:(NSString *)path
+{
+    return [[NSURL alloc] initWithScheme:self.mantaURL.scheme host:self.mantaURL.host path:path];
+}
+
+- (void)ls:(NSString *)remotePath
+  callback:(void(^)(AFHTTPRequestOperation *, NSError *, NSArray *))callback
+{
+    return [self ls:remotePath limit:MANTA_MAX_LS_LIMIT callback:callback];
+}
+
+- (void)ls:(NSString *)remotePath
+     limit:(NSInteger)limit
+  callback:(void(^)(AFHTTPRequestOperation *, NSError *, NSArray *))callback
+{
+    return [self ls:remotePath limit:limit marker:nil callback:callback];
+}
+
+- (void)ls:(NSString *)remotePath
+     limit:(NSInteger)limit
+    marker:(NSString *)marker
+  callback:(void(^)(AFHTTPRequestOperation *, NSError *, NSArray *))callback
 {
     AFHTTPRequestOperationManager *manager = [[AFHTTPRequestOperationManager alloc] initWithBaseURL:self.mantaURL];
     manager.responseSerializer = [JSONStreamResponseSerializer serializer];
-    [manager GET:remotePath parameters:nil success:^(AFHTTPRequestOperation *operation, id responseObject) {
-        NSArray *sorteddArray = [responseObject sortedArrayUsingComparator:^NSComparisonResult(id a, id b) {
-            if ([a[@"type"] isEqualToString:@"directory"] && ![b[@"type"] isEqualToString:@"directory"])
-                return NSOrderedAscending;
-            if ([b[@"type"] isEqualToString:@"directory"] && ![a[@"type"] isEqualToString:@"directory"])
-                return NSOrderedDescending;
-            return [a[@"name"] compare:b[@"name"]];
-        }];
-        callback(operation, nil, sorteddArray);
+    
+    NSMutableDictionary *parameters = [NSMutableDictionary new];
+    parameters[@"limit"] = [NSNumber numberWithInteger:limit];
+    parameters[@"marker"] = marker ? marker : @"";
+    
+    [manager GET:remotePath
+      parameters:parameters
+         success:^(AFHTTPRequestOperation *operation, id responseObject) {
+             callback(operation, nil, responseObject);
     } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
-        callback(operation, error, nil);
+             callback(operation, error, nil);
     }];
 }
 
 #pragma mark - Crypto
-- (NSData *)getSignatureBytes:(NSData *)plainText withPrivateKey:(SecKeyRef)privateKey
+- (NSData *)getSignatureBytes:(NSData *)plainText
+               withPrivateKey:(SecKeyRef)privateKey
 {
 	OSStatus sanityCheck = noErr;
 	NSData * signedHash = nil;

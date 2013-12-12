@@ -24,8 +24,9 @@
 		554C2C9D184D744800EE430B /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 554C2C79184D744800EE430B /* UIKit.framework */; };
 		554C2CA5184D744800EE430B /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 554C2CA3184D744800EE430B /* InfoPlist.strings */; };
 		554C2CA7184D744800EE430B /* MantaTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 554C2CA6184D744800EE430B /* MantaTests.m */; };
+		556D43F51858C82E008D10E9 /* UsersTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 556D43F41858C82E008D10E9 /* UsersTableViewController.m */; };
 		556E29701853F3B700ECBE19 /* FilesTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 556E296F1853F3B700ECBE19 /* FilesTableViewCell.m */; };
-		556E29731854CA7600ECBE19 /* AddAccountViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 556E29721854CA7600ECBE19 /* AddAccountViewController.m */; };
+		556E29731854CA7600ECBE19 /* ModifyAccountTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 556E29721854CA7600ECBE19 /* ModifyAccountTableViewController.m */; };
 		556E29761854EECF00ECBE19 /* IndividualFileTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 556E29751854EECF00ECBE19 /* IndividualFileTableViewController.m */; };
 		55AB507F185630D800CE20FD /* MantaClient.m in Sources */ = {isa = PBXBuildFile; fileRef = 55AB507E185630D800CE20FD /* MantaClient.m */; };
 		924ECA0238964096879C091A /* libPods.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 4E9469D06BC44E53BFAC0155 /* libPods.a */; };
@@ -67,10 +68,12 @@
 		554C2CA2184D744800EE430B /* MantaTests-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "MantaTests-Info.plist"; sourceTree = "<group>"; };
 		554C2CA4184D744800EE430B /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		554C2CA6184D744800EE430B /* MantaTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MantaTests.m; sourceTree = "<group>"; };
+		556D43F31858C82E008D10E9 /* UsersTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UsersTableViewController.h; sourceTree = "<group>"; };
+		556D43F41858C82E008D10E9 /* UsersTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UsersTableViewController.m; sourceTree = "<group>"; };
 		556E296E1853F3B700ECBE19 /* FilesTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FilesTableViewCell.h; sourceTree = "<group>"; };
 		556E296F1853F3B700ECBE19 /* FilesTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FilesTableViewCell.m; sourceTree = "<group>"; };
-		556E29711854CA7600ECBE19 /* AddAccountViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AddAccountViewController.h; sourceTree = "<group>"; };
-		556E29721854CA7600ECBE19 /* AddAccountViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AddAccountViewController.m; sourceTree = "<group>"; };
+		556E29711854CA7600ECBE19 /* ModifyAccountTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ModifyAccountTableViewController.h; sourceTree = "<group>"; };
+		556E29721854CA7600ECBE19 /* ModifyAccountTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ModifyAccountTableViewController.m; sourceTree = "<group>"; };
 		556E29741854EECF00ECBE19 /* IndividualFileTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IndividualFileTableViewController.h; sourceTree = "<group>"; };
 		556E29751854EECF00ECBE19 /* IndividualFileTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = IndividualFileTableViewController.m; sourceTree = "<group>"; };
 		55AB507D185630D800CE20FD /* MantaClient.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MantaClient.h; sourceTree = "<group>"; };
@@ -143,12 +146,14 @@
 				554C2C85184D744800EE430B /* AppDelegate.m */,
 				554C2C87184D744800EE430B /* Main_iPhone.storyboard */,
 				554C2C8A184D744800EE430B /* Main_iPad.storyboard */,
+				556D43F31858C82E008D10E9 /* UsersTableViewController.h */,
+				556D43F41858C82E008D10E9 /* UsersTableViewController.m */,
 				5524CB4B184D791400094EAE /* FilesTableViewController.h */,
 				5524CB4C184D791400094EAE /* FilesTableViewController.m */,
 				556E296E1853F3B700ECBE19 /* FilesTableViewCell.h */,
 				556E296F1853F3B700ECBE19 /* FilesTableViewCell.m */,
-				556E29711854CA7600ECBE19 /* AddAccountViewController.h */,
-				556E29721854CA7600ECBE19 /* AddAccountViewController.m */,
+				556E29711854CA7600ECBE19 /* ModifyAccountTableViewController.h */,
+				556E29721854CA7600ECBE19 /* ModifyAccountTableViewController.m */,
 				556E29741854EECF00ECBE19 /* IndividualFileTableViewController.h */,
 				556E29751854EECF00ECBE19 /* IndividualFileTableViewController.m */,
 				554C2C90184D744800EE430B /* SecondViewController.h */,
@@ -333,11 +338,12 @@
 			buildActionMask = 2147483647;
 			files = (
 				554C2C92184D744800EE430B /* SecondViewController.m in Sources */,
-				556E29731854CA7600ECBE19 /* AddAccountViewController.m in Sources */,
+				556E29731854CA7600ECBE19 /* ModifyAccountTableViewController.m in Sources */,
 				554C2C86184D744800EE430B /* AppDelegate.m in Sources */,
 				554C2C82184D744800EE430B /* main.m in Sources */,
 				5524CB50184D7A3E00094EAE /* JSONStreamResponseSerializer.m in Sources */,
 				5524CB4D184D791400094EAE /* FilesTableViewController.m in Sources */,
+				556D43F51858C82E008D10E9 /* UsersTableViewController.m in Sources */,
 				556E29761854EECF00ECBE19 /* IndividualFileTableViewController.m in Sources */,
 				556E29701853F3B700ECBE19 /* FilesTableViewCell.m in Sources */,
 				55AB507F185630D800CE20FD /* MantaClient.m in Sources */,
