@@ -187,7 +187,7 @@
                                 <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                             </state>
                             <connections>
-                                <action selector="addAccountButtonPressed:" destination="vWD-Nj-jIi" eventType="touchUpInside" id="gO5-bU-jwY"/>
+                                <action selector="modifyAccountButtonPressed:" destination="vWD-Nj-jIi" eventType="touchUpInside" id="z6N-J4-2AB"/>
                             </connections>
                         </button>
                         <sections>
@@ -477,6 +477,6 @@
         <simulatedScreenMetrics key="destination" type="retina4"/>
     </simulatedMetricsContainer>
     <inferredMetricsTieBreakers>
-        <segue reference="9Uk-DT-XMI"/>
+        <segue reference="e5f-tr-oXn"/>
     </inferredMetricsTieBreakers>
 </document>

@@ -47,7 +47,7 @@
     [self resignFirstResponder];
 }
 
-- (IBAction)ModifyAccountButtonPressed:(id)sender
+- (IBAction)modifyAccountButtonPressed:(id)sender
 {
     NSString *username = self.nameField.text;
     NSString *mantaURL = self.urlField.text;
